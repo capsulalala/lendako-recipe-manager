@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id           Int          @id @default(autoincrement())
+  name         String
+  instructions String
+  ingredients  Ingredient[]
+  createdAt    DateTime     @default(now())
+}
+
+model Ingredient {
+  id       Int     @id @default(autoincrement())
+  name     String
+  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId Int
+}
